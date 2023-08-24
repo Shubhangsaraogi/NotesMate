@@ -3,18 +3,21 @@ import { useHistory } from 'react-router-dom'
 
 const Signup = (props) => {
   const [cred, setcred] = useState({ name: "", email: "", password: "", cpassword: "" })
+  const [isLoading, setIsLoading] = useState(false);
   let history = useHistory();
 
   const handleclick = async (e) => {
     e.preventDefault();
-    const response = await fetch(`${process.env.REACT_APP_HOST_URL}/api/createuser`, {
+    setIsLoading(true);
+    const response = await fetch(`${process.env.REACT_APP_HOST_URI}/api/createuser`, {
       method: 'POST',
       headers: {
         'Content-type': 'application/json'
       },
-      body: JSON.stringify({ name: cred.name, email: cred.email, password: cred.password })
+      body: JSON.stringify({ name: cred.name, email: cred.email, password: cred.password }),
     });
     const result = await response.json();
+    setIsLoading(false);
     if (result.success) {
       localStorage.setItem('token', result.authToken)
       props.showAlert("Signed in successfully", "success");
@@ -48,7 +51,10 @@ const Signup = (props) => {
           <label htmlFor="cpassword" className="form-label">Confirm Password</label>
           <input type="password" name='cpassword' value={cred.cpassword} onChange={onchange} className="form-control" id="password" required minLength={5} />
         </div>
-        <button type="submit" className="btn btn-primary">Submit</button>
+        <button type="submit" className="btn btn-primary">
+        {isLoading?<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>:''}
+          SignUp
+        </button>
       </form>
     </div>
     </div>

@@ -3,7 +3,7 @@ import problemContext from '../context/problem/problemContext'
 
 const Modal = (props) => {
     const context = useContext(problemContext);
-    const { editQuestion } = context;
+    const { isLoading, editQuestion } = context;
 
     const [question, setquestion] = useState({ title: props.title, description: props.description})
     
@@ -32,13 +32,15 @@ const Modal = (props) => {
                             </div>
                             <div className="mb-3">
                                 <label htmlFor="description" className="form-label">New Description</label>
-                                <textarea className="form-control" id="description" name='description' onChange={onchange} value={question.description} rows="3" required minLength={5}></textarea>
+                                <input className="form-control" id="description" name='description' onChange={onchange} value={question.description} rows="3" required minLength={5}></input>
                             </div>
                             
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button disabled={question.title.length<5||question.description.length<5}  type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleclick}>Update Note</button>
+                            <button disabled={question.title.length<5||question.description.length<5}  type="submit" className="btn btn-primary" data-bs-dismiss="modal" onClick={handleclick}>
+                            <span className={`${isLoading?'spinner-border spinner-border-sm':''}`}></span>
+                                Update Note</button>
                         </div>
                     </div>
                 </div>

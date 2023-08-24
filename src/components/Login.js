@@ -3,18 +3,21 @@ import {useHistory} from 'react-router-dom'
 
 const Login = (props) => {
     const [credentials, setcredentials] = useState({email:"",password:""})
+    const [isLoading, setIsLoading] = useState(false);
     let history = useHistory();
 
     const handleclick =async (e)=>{
+        setIsLoading(true);
         e.preventDefault();
-        const response = await fetch(`${process.env.REACT_APP_HOST_URL}/api/login`,{
+        const response = await fetch(`${process.env.REACT_APP_HOST_URI}/api/login`,{
             method:'POST',
             headers:{
-                'Content-type':'application/json'
+                'Content-type':'application/json',
             },
             body:JSON.stringify({email:credentials.email,password:credentials.password})
         });
         const result =await response.json();
+        setIsLoading(false);
         if(result.success)
         {
             localStorage.setItem('token',result.authToken)
@@ -43,7 +46,10 @@ const Login = (props) => {
                     <label htmlFor="password" className="form-label">Password</label>
                     <input type="password"  name='password' value={credentials.password} onChange={onchange} className="form-control" id="password"/>
                 </div>
-                <button type="submit" className="btn btn-primary">Submit</button>
+                <button type="submit" className="btn btn-primary">
+                {isLoading?<span className="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>:''}
+                    Login
+                </button>
             </form>
         </div>
         </div>

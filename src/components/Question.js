@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react'
 import problemContext from '../context/problem/problemContext'
 import QuestionItem from './QuestionItem';
 import { useHistory } from 'react-router-dom/cjs/react-router-dom'
+import LoadingSpinner from './Spinner';
 
 const Question = (props) => {
     let history = useHistory();
@@ -13,7 +14,7 @@ const Question = (props) => {
         // eslint-disable-next-line
     }, [])
     const context = useContext(problemContext);
-    const { question, getQuestion } = context;
+    const {isLoading, question, getQuestion } = context;
     useEffect(() => {
         getQuestion();
         // eslint-disable-next-line
@@ -24,7 +25,9 @@ const Question = (props) => {
             <div className='row my-3 '>
                 <h3>Your Questions</h3>
                 <div className="container">
-                    {question.length === 0 && "No Notes to display"}
+                    {questions.length?'':'No Notes to display'}
+                    <hr />
+                    {isLoading?<LoadingSpinner/>:''}
                 </div>
                 {
                     questions && questions.map((question) => {
