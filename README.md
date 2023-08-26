@@ -10,7 +10,6 @@ tags:
 
 This is a [Create React App](https://create-react-app.dev/) starter that uses [serve](https://www.npmjs.com/package/serve).
 
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/template/6sjhSn?referralCode=ySCnWl)
 
 ## ✨ Features
 
